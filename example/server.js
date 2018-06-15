@@ -1,20 +1,20 @@
-import React from 'react';
-import { createServer } from 'http';
-import ReactDOMServer from 'react-dom/server';
-import { matchRoutes, renderRoutes } from 'react-router-config';
-import { Provider } from 'react-redux';
-import fetch from 'node-fetch';
+import React from "react";
+import { createServer } from "http";
+import ReactDOMServer from "react-dom/server";
+import { matchRoutes, renderRoutes } from "react-router-config";
+import { Provider } from "react-redux";
+import fetch from "node-fetch";
 
 global.fetch = fetch;
 
-import createStore from './createStore';
-import App from './components/App';
+import createStore from "./createStore";
+import App from "./components/App";
 
 const routes = [
   {
     component: App,
-    path: '/'
-  },
+    path: "/"
+  }
 ];
 
 createServer((req, res) => {
@@ -22,13 +22,12 @@ createServer((req, res) => {
   const branch = matchRoutes(routes, req.url);
 
   const promises = branch.map(({ route, match }) => {
-    return route.component.loadData ?
-      route.component.loadData(store.dispatch, { match }) :
-      Promise.resolve(null);
+    return route.component.loadData
+      ? route.component.loadData(store.dispatch, { match })
+      : Promise.resolve(null);
   });
 
-  Promise.all(promises)
-  .then(() => {
+  Promise.all(promises).then(() => {
     const html = ReactDOMServer.renderToStaticMarkup(
       <Provider store={store}>
         <App />

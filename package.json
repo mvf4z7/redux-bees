@@ -6,7 +6,7 @@
   "scripts": {
     "prepublish": "rimraf lib && mkdir lib && npm run lib",
     "start": "webpack-dev-server --open",
-    "start-server": "babel-node example/server-side.js",
+    "start-server": "babel-node example/server.js",
     "lib": "babel src --out-dir lib",
     "test": "babel-node test/index.js | tap-dot"
   },
